@@ -1,0 +1,60 @@
+### VSCode REST Client requests (install humao.rest-client extension)
+
+@base = http://localhost:5000/api
+@token = {{token}}
+@adminToken = {{adminToken}}
+
+### Health
+GET http://localhost:5000/api/health
+
+### Register student
+POST {{base}}/auth/register
+Content-Type: application/json
+
+{
+  "name": "Alice",
+  "email": "alice@example.com",
+  "password": "Password1!"
+}
+
+### Login (student)
+POST {{base}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "alice@example.com",
+  "password": "Password1!"
+}
+
+### Me (student)
+GET {{base}}/auth/me
+Authorization: Bearer {{token}}
+
+### List exams (student)
+GET {{base}}/exams
+Authorization: Bearer {{token}}
+
+### Register for exam (student)
+POST {{base}}/registrations
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "examId": "{{examId}}"
+}
+
+### My registrations (student)
+GET {{base}}/registrations/mine
+Authorization: Bearer {{token}}
+
+### Admin: List all registrations
+GET {{base}}/registrations
+Authorization: Bearer {{adminToken}}
+
+### Admin: Approve registration
+PATCH {{base}}/registrations/{{registrationId}}/approve
+Authorization: Bearer {{adminToken}}
+
+### Admin: Cancel registration
+PATCH {{base}}/registrations/{{registrationId}}/cancel
+Authorization: Bearer {{adminToken}}

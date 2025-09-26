@@ -1,0 +1,113 @@
+{
+  "info": {
+    "name": "Exam Registration API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register (student)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "http://localhost:5000/api/auth/register", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "auth", "register"] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Alice\",\n  \"email\": \"alice@example.com\",\n  \"password\": \"Password1!\"\n}" }
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "http://localhost:5000/api/auth/login", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "auth", "login"] },
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"alice@example.com\",\n  \"password\": \"Password1!\"\n}" }
+          }
+        },
+        {
+          "name": "Me",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "http://localhost:5000/api/auth/me", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Exams",
+      "item": [
+        {
+          "name": "List Exams",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "http://localhost:5000/api/exams", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "exams"] }
+          }
+        },
+        {
+          "name": "Create Exam (admin)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}" }, { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "http://localhost:5000/api/exams", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "exams"] },
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Sample Exam\",\n  \"date\": \"2025-10-01T10:00:00.000Z\",\n  \"durationMinutes\": 90,\n  \"totalSeats\": 10\n}" }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Registrations",
+      "item": [
+        {
+          "name": "Register for Exam (student)",
+          "request": {
+            "method": "POST",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" }, { "key": "Content-Type", "value": "application/json" } ],
+            "url": { "raw": "http://localhost:5000/api/registrations", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "registrations"] },
+            "body": { "mode": "raw", "raw": "{\n  \"examId\": \"{{examId}}\"\n}" }
+          }
+        },
+        {
+          "name": "My Registrations",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{token}}" } ],
+            "url": { "raw": "http://localhost:5000/api/registrations/mine", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "registrations", "mine"] }
+          }
+        },
+        {
+          "name": "All Registrations (admin)",
+          "request": {
+            "method": "GET",
+            "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}" } ],
+            "url": { "raw": "http://localhost:5000/api/registrations", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "registrations"] }
+          }
+        },
+        {
+          "name": "Approve Registration (admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}" } ],
+            "url": { "raw": "http://localhost:5000/api/registrations/{{registrationId}}/approve", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "registrations", "{{registrationId}}", "approve"] }
+          }
+        },
+        {
+          "name": "Cancel Registration (admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [ { "key": "Authorization", "value": "Bearer {{adminToken}}" } ],
+            "url": { "raw": "http://localhost:5000/api/registrations/{{registrationId}}/cancel", "protocol": "http", "host": ["localhost"], "port": "5000", "path": ["api", "registrations", "{{registrationId}}", "cancel"] }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    { "key": "token", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "examId", "value": "" },
+    { "key": "registrationId", "value": "" }
+  ]
+}
