@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import api from '../api/client.js'
 import ExamForm from '../components/ExamForm.jsx'
+import AdminHero from '../components/AdminHero.jsx'
+import AdminStats from '../components/AdminStats.jsx'
+import PendingApprovals from '../components/PendingApprovals.jsx'
+ 
+import './AdminDashboard.css'
 
 export default function AdminDashboard() {
   const [exams, setExams] = useState([])
@@ -121,22 +126,76 @@ export default function AdminDashboard() {
     }
   }
 
+  const goToExams = () => {
+    setTab('exams')
+    // Wait for section to render, then scroll
+    setTimeout(() => {
+      document.getElementById('admin-exams')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 0)
+  }
+
+  const goToRegs = () => {
+    setTab('regs')
+    setTimeout(() => {
+      document.getElementById('admin-registrations')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 0)
+  }
+
+  const openTabAndScroll = (name, targetId) => {
+    setTab(name)
+    // Wait for the section to render, then scroll into view
+    setTimeout(() => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 0)
+  }
+
   return (
-    <div>
-      <div className="card">
+    <div className="admin-page">
+      <AdminHero onGoExams={goToExams} onGoRegs={goToRegs} />
+
+      <div className="card admin-card">
         <h2>Admin Dashboard</h2>
         {loading && <div>Loading...</div>}
         {error && <div className="error">{error}</div>}
         {message && <div className="success">{message}</div>}
-        <div className="tabs">
-          <button className={`tab ${tab === 'exams' ? 'active' : ''}`} onClick={() => setTab('exams')}>Manage Exams</button>
-          <button className={`tab ${tab === 'regs' ? 'active' : ''}`} onClick={() => setTab('regs')}>Registrations</button>
-          <button className={`tab ${tab === 'users' ? 'active' : ''}`} onClick={() => setTab('users')}>Users</button>
+        <div className="tabs" role="tablist" aria-label="Admin tabs">
+          <button
+            className={`tab ${tab === 'exams' ? 'active' : ''}`}
+            role="tab"
+            aria-selected={tab === 'exams'}
+            onClick={() => openTabAndScroll('exams', 'admin-exams')}
+          >
+            Manage Exams
+          </button>
+          <button
+            className={`tab ${tab === 'regs' ? 'active' : ''}`}
+            role="tab"
+            aria-selected={tab === 'regs'}
+            onClick={() => openTabAndScroll('regs', 'admin-registrations')}
+          >
+            Registrations
+          </button>
+          <button
+            className={`tab ${tab === 'users' ? 'active' : ''}`}
+            role="tab"
+            aria-selected={tab === 'users'}
+            onClick={() => openTabAndScroll('users', 'admin-users')}
+          >
+            Users
+          </button>
         </div>
       </div>
 
+      {/* Admin Homepage widgets */}
+      <div className="card admin-card" id="admin-overview">
+        <h3>Overview</h3>
+        <AdminStats exams={exams} regs={regs} />
+      </div>
+
+      <PendingApprovals regs={regs} onApprove={handleApprove} onCancel={handleCancel} onIssue={handleIssueHallTicket} />
+
       {tab === 'exams' && (
-        <div className="grid-2">
+        <div className="grid-2 admin-section" id="admin-exams">
           <div className="card">
             <h3>{editing ? 'Edit Exam' : 'Create Exam'}</h3>
             <ExamForm onSubmit={editing ? handleUpdate : handleCreate} initial={editing} />
@@ -174,7 +233,7 @@ export default function AdminDashboard() {
       )}
 
       {tab === 'regs' && (
-    <div className="card">
+    <div className="card admin-card" id="admin-registrations">
       <div className="grid">
         <label>
           <span>Filter by exam</span>
@@ -214,9 +273,23 @@ export default function AdminDashboard() {
                   </button>
                 </td>
                 <td>
-                  <button className="btn small" onClick={() => handleApprove(r)} disabled={r.status === 'approved'}>Approve</button>
-                  <button className="btn small danger" onClick={() => handleCancel(r)} disabled={r.status === 'cancelled'}>Cancel</button>
-                  <button className="btn small" onClick={() => handleIssueHallTicket(r)} disabled={r.status !== 'approved' || !!r.hallTicket?.number}>Issue Hall Ticket</button>
+                  <div className="actions">
+                    <button
+                      className={`btn small ${r.status === 'approved' ? 'state-done' : 'action-approve'}`}
+                      onClick={() => handleApprove(r)}
+                      disabled={r.status === 'approved'}
+                    >
+                      {r.status === 'approved' ? 'Approved' : 'Approve'}
+                    </button>
+                    <button className="btn small danger" onClick={() => handleCancel(r)} disabled={r.status === 'cancelled'}>
+                      {r.status === 'cancelled' ? 'Cancelled' : 'Cancel'}
+                    </button>
+                    {r.hallTicket?.number ? (
+                      <button className="btn small state-issued" disabled>Already issued</button>
+                    ) : (
+                      <button className="btn small action-issue" onClick={() => handleIssueHallTicket(r)} disabled={r.status !== 'approved'}>Issue Hall Ticket</button>
+                    )}
+                  </div>
                 </td>
               </tr>
               {openAppId === r._id && (
@@ -243,7 +316,7 @@ export default function AdminDashboard() {
   )}
 
       {tab === 'users' && (
-        <div className="card">
+        <div className="card admin-card" id="admin-users">
           <h3>Create User</h3>
           <form className="form" onSubmit={handleCreateUser}>
             <label>

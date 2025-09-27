@@ -6,14 +6,19 @@ export default function ApplicationForm({ initial = {}, onSubmit, onCancel }) {
   const [phone, setPhone] = useState(initial.phone || '')
   const [address, setAddress] = useState(initial.address || '')
   const [education, setEducation] = useState(initial.education || '')
+  const [regNo, setRegNo] = useState(initial.regNo || '')
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    onSubmit({ fullName, dob, phone, address, education })
+    onSubmit({ fullName, dob, phone, address, education, regNo })
   }
 
   return (
     <form className="form" onSubmit={handleSubmit}>
+      <label>
+        <span>Registration No.</span>
+        <input value={regNo} onChange={(e) => setRegNo(e.target.value)} placeholder="e.g., REG-2025-001" required />
+      </label>
       <label>
         <span>Full name</span>
         <input value={fullName} onChange={(e) => setFullName(e.target.value)} required />

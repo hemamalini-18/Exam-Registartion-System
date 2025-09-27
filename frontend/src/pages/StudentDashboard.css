@@ -1,0 +1,160 @@
+/* Student Dashboard page-specific styles (scoped) */
+
+.student-page {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* -------------------- Hero -------------------- */
+.student-page .hero {
+  text-align: center;
+  padding: 56px 10px 36px;
+}
+.student-page .hero-inner {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.student-page .hero-title {
+  font-size: clamp(28px, 4.6vw, 48px);
+  line-height: 1.1;
+  margin: 0 0 10px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+.student-page .hero-title .accent {
+  color: #8b5cf6; /* violet accent like reference */
+}
+.student-page .hero-sub {
+  margin: 8px auto 18px;
+  color: var(--muted);
+  max-width: 760px;
+}
+.student-page .hero-actions { display: inline-flex; gap: 12px; align-items: center; justify-content: center; }
+
+/* -------------------- Overview / Cards -------------------- */
+.student-page .dash-card {
+  padding-top: 28px;
+  padding-bottom: 28px;
+}
+
+/* -------------------- Stats -------------------- */
+.student-page .stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+.student-page .stat-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(2,6,23,0.06);
+}
+.student-page .stat-icon { font-size: 22px; }
+.student-page .stat-value { font-size: 26px; font-weight: 900; letter-spacing: -0.01em; }
+.student-page .stat-label { color: var(--muted); font-weight: 700; }
+
+/* -------------------- Featured Exams -------------------- */
+.student-page .section-title { text-align: center; margin: 10px 0 4px; font-size: clamp(22px, 3.2vw, 28px); font-weight: 900; }
+.student-page .section-sub { text-align: center; color: var(--muted); margin: 0 0 28px; }
+.student-page .card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+@media (max-width: 1000px) { .student-page .card-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 680px)  { .student-page .card-grid { grid-template-columns: 1fr; } }
+
+.student-page .exam-card {
+  background: var(--panel-grad);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 8px 22px rgba(2,6,23,0.06);
+  display: grid;
+  gap: 10px;
+}
+.student-page .exam-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.student-page .exam-title { font-size: 1.02rem; margin: 0; font-weight: 800; }
+.student-page .pill { border-radius: 999px; padding: 6px 10px; font-weight: 800; border: 1px solid var(--border); background: #fff; }
+.student-page .pill.open { background: #ecfeff; color: #0c4a6e; border-color: #67e8f9; }
+.student-page .pill.closed { background: #fee2e2; color: #7f1d1d; border-color: #fecaca; }
+
+.student-page .exam-meta { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 14px; }
+.student-page .exam-meta li { display: flex; align-items: center; justify-content: space-between; background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; }
+.student-page .exam-meta li span { color: var(--muted); font-weight: 700; }
+.student-page .exam-actions { display: flex; gap: 10px; }
+
+/* Inline exam details subcard to avoid shifting layout of sibling cards */
+.student-page .exam-details {
+  margin-top: 10px;
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 6px 18px rgba(2,6,23,0.05);
+}
+
+/* -------------------- Why Choose (Features) -------------------- */
+.student-page .features {
+  padding: 24px;
+  background: var(--panel-grad);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  box-shadow: 0 10px 28px rgba(2,6,23,0.06), 0 1px 2px rgba(2,6,23,0.04);
+}
+.student-page .feature-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+@media (max-width: 1000px) { .student-page .feature-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 680px)  { .student-page .feature-grid { grid-template-columns: 1fr; } }
+.student-page .feature-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: grid;
+  gap: 6px;
+  align-content: start;
+  text-align: left;
+  box-shadow: 0 8px 22px rgba(2,6,23,0.05);
+}
+.student-page .feature-icon {
+  width: 40px; height: 40px; display: grid; place-items: center; border-radius: 12px;
+  background: #ecfeff; color: #0c4a6e; font-size: 20px; margin-bottom: 8px;
+}
+
+/* -------------------- Section spacing -------------------- */
+.student-page .dash-section { margin-top: 22px; margin-bottom: 6px; }
+
+/* Tighten spaces on small screens */
+@media (max-width: 700px) {
+  .student-page { gap: 20px; }
+  .student-page .dash-card { padding-top: 22px; padding-bottom: 22px; }
+  .student-page .hero { padding: 40px 10px 26px; }
+}
+
+/* Darker border for ghost buttons on dashboard (e.g., View All Exams) */
+.student-page .btn.ghost {
+  border-color: #8fb3a8 !important; /* darker than var(--border) */
+  color: var(--text);
+}
+.student-page .btn.ghost:hover {
+  border-color: #6aa89a !important;
+  background: rgba(2,6,23,0.03);
+}
+
+/* Cancelled banner */
+.student-page .cancel-banner {
+  background: #fff1f2; /* rose-50 */
+  border: 1px solid #fecdd3; /* rose-200 */
+}
+.student-page .cancel-banner__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}

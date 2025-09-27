@@ -16,6 +16,13 @@ export default function Navbar() {
       <div className="nav-right">
         {!user && (
           <>
+            <div className="nav-group">
+              <Link to="/home">Home</Link>
+              <Link to="/about">About</Link>
+              <Link to="/faq">FAQ</Link>
+              <Link to="/contact">Contact</Link>
+              <Link to="/terms">Terms</Link>
+            </div>
             <Link to="/login">Login</Link>
             <Link to="/register">Register</Link>
           </>
@@ -23,14 +30,15 @@ export default function Navbar() {
         {user && (
           <>
             {user.role === 'admin' ? (
-              <Link to="/admin">Admin</Link>
+              <div className="nav-group">
+                <Link to="/admin">Admin</Link>
+                <Link to="/admin/registrations">Registrations</Link>
+              </div>
             ) : (
-              <>
-                <div className="nav-group">
-                  <Link to="/student">Dashboard</Link>
-                  <a href="/student#my-registrations">My Registrations</a>
-                </div>
-              </>
+              <div className="nav-group">
+                <Link to="/student">Dashboard</Link>
+                <Link to="/student/registrations">My Registrations</Link>
+              </div>
             )}
             <span className="user">{user.name} ({user.role})</span>
             <span className="avatar" title={user.name} aria-hidden>

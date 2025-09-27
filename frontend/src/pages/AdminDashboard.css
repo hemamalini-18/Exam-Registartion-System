@@ -1,0 +1,86 @@
+/* Admin Dashboard page-specific styles (scoped) */
+
+.admin-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Center Admin hero content */
+.admin-page .hero { text-align: center; padding: 46px 10px 28px; }
+.admin-page .hero-inner { max-width: 960px; margin: 0 auto; }
+.admin-page .hero-title { font-size: clamp(28px, 4vw, 40px); margin: 0 0 8px; font-weight: 900; letter-spacing: -0.02em; }
+.admin-page .hero-title .accent { color: #8b5cf6; }
+.admin-page .hero-sub { color: var(--muted); margin: 6px auto 16px; max-width: 760px; }
+.admin-page .hero-actions { display: inline-flex; gap: 12px; align-items: center; justify-content: center; }
+
+/* Roomier admin cards */
+.admin-card {
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
+
+/* Sections separation */
+.admin-section { margin-top: 14px; }
+
+/* Tab bar spacing on the Admin header card */
+.admin-card .tabs { margin-top: 8px; }
+
+/* Improve table spacing inside admin cards */
+.admin-card .table th, .admin-card .table td { padding: 12px 12px; }
+
+/* Pending approvals/system health blocks can sit a bit apart */
+#admin-overview + * { margin-top: 12px; }
+
+/* Make ghost buttons borders darker for admin too */
+.admin-page .btn.ghost { border-color: #8fb3a8 !important; color: var(--text); }
+.admin-page .btn.ghost:hover { border-color: #6aa89a !important; background: rgba(2,6,23,0.03); }
+
+/* -------------------- Admin Overview Stats -------------------- */
+.admin-page .stats {
+  display: grid;
+  gap: 16px;
+}
+.admin-page .stat-card {
+  background: #ffffff;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  display: grid;
+  gap: 6px;
+  align-content: center;
+  text-align: center;
+  box-shadow: 0 8px 22px rgba(2,6,23,0.06);
+}
+.admin-page .stat-icon { font-size: 20px; }
+.admin-page .stat-value { font-size: 22px; font-weight: 900; letter-spacing: -0.01em; }
+.admin-page .stat-label { color: var(--muted); font-weight: 700; }
+
+/* Visual difference between pending actions and completed ones */
+.admin-page .btn.state-done {
+  background: #e7f5ee !important; /* soft green */
+  color: #065f46 !important;
+  border-color: #a7f3d0 !important;
+  cursor: default;
+}
+.admin-page .btn.state-issued {
+  background: #e0f2fe !important; /* soft blue */
+  color: #075985 !important;
+  border-color: #bae6fd !important;
+  cursor: default;
+}
+
+/* Base action colors */
+.admin-page .btn.action-approve {
+  background: #0ea5a4; /* teal */
+  border-color: #0ea5a4;
+  color: #fff;
+}
+.admin-page .btn.action-approve:hover { background: #0b8c8b; border-color: #0b8c8b; }
+
+.admin-page .btn.action-issue {
+  background: #2563eb; /* blue */
+  border-color: #2563eb;
+  color: #fff;
+}
+.admin-page .btn.action-issue:hover { background: #1e4fd6; border-color: #1e4fd6; }

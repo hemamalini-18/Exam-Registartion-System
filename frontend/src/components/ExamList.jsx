@@ -1,6 +1,11 @@
 import React from 'react'
 
-export default function ExamList({ exams, onRegister, showRegister }) {
+export default function ExamList({ exams, onRegister, showRegister, registeredIds }) {
+  const hasRegistered = (examId) => {
+    if (!registeredIds) return false
+    if (registeredIds instanceof Set) return registeredIds.has(examId)
+    return Array.isArray(registeredIds) && registeredIds.includes(examId)
+  }
   return (
     <div className="card">
       <h3>Available Exams</h3>
@@ -23,7 +28,11 @@ export default function ExamList({ exams, onRegister, showRegister }) {
               <td>{exam.availableSeats ?? exam.totalSeats}</td>
               {showRegister && (
                 <td>
-                  <button className="btn" onClick={() => onRegister(exam)} disabled={(exam.availableSeats ?? 0) <= 0}>Register</button>
+                  {hasRegistered(exam._id) ? (
+                    <span className="badge">Already registered</span>
+                  ) : (
+                    <button className="btn" onClick={() => onRegister(exam)} disabled={(exam.availableSeats ?? 0) <= 0}>Register</button>
+                  )}
                 </td>
               )}
             </tr>

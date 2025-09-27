@@ -1,0 +1,51 @@
+/* Page wrapper */
+.myregs {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto; /* allow page to grow to fill content area */
+}
+  
+  /* Fill the centered container width without changing global layout.
+     The .container uses 20px horizontal padding; offset it here to let
+     the card visually span the container width while keeping its rounded
+     corners and shadow. */
+  .myregs .myregs-card {
+    /* Centered card within container */
+    width: 100%;
+    max-width: 1240px; /* tune as desired */
+    margin: 0 auto 12px; /* center horizontally and reduce bottom gap */
+    border-radius: 14px;
+    padding-left: 20px;
+    padding-right: 20px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header row alignment */
+  .myregs-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  /* Make the header Refresh button smaller on this page */
+  .myregs-head .btn {
+    height: 32px !important;           /* control height */
+    padding: 0 10px !important;         /* horizontal padding only */
+    display: inline-flex;               /* center label vertically */
+    align-items: center;
+    font-size: 0.8rem !important;
+    border-radius: 8px !important;
+    box-shadow: 0 4px 10px rgba(14,165,164,0.18);
+    line-height: 1;                     /* avoid extra vertical space */
+  }
+  .myregs-head .btn.small { padding: 4px 8px !important; font-size: 0.8rem !important; }
+  @media (max-width: 520px) {
+    .myregs-head .btn { height: 28px !important; font-size: 0.78rem !important; padding: 0 9px !important; }
+  }
+  
+  /* On small screens, reduce the offset so content doesn't overflow */
+  @media (max-width: 520px) {
+    .myregs .myregs-card { max-width: 100%; padding-left: 14px; padding-right: 14px; }
+  }

@@ -13,4 +13,19 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+// Normalize error responses so UI components can show clear messages
+api.interceptors.response.use(
+  (res) => res,
+  (error) => {
+    const status = error?.response?.status
+    const message = error?.response?.data?.message
+      || error?.message
+      || 'Request failed'
+    // Attach a normalized message for components to use
+    error.normalizedMessage = message
+    error.status = status
+    return Promise.reject(error)
+  }
+)
+
 export default api

@@ -1,9 +1,76 @@
 import Exam from '../models/Exam.js';
 import Registration from '../models/Registration.js';
 import { logAudit } from '../utils/audit.js';
+import PDFDocument from 'pdfkit';
 
 const approvedCountForExam = async (examId) => {
   return Registration.countDocuments({ exam: examId, status: 'approved' });
+};
+
+// Stream a simple PDF hall ticket for the registration (owner or admin)
+export const downloadHallTicket = async (req, res) => {
+  try {
+    const reg = await Registration.findById(req.params.id).populate('user').populate('exam');
+    if (!reg) return res.status(404).json({ message: 'Registration not found' });
+    const isOwner = String(reg.user?._id) === String(req.user._id);
+    const isAdmin = req.user.role === 'admin';
+    if (!isOwner && !isAdmin) return res.status(403).json({ message: 'Forbidden' });
+    if (!reg.hallTicket?.number) return res.status(400).json({ message: 'Hall ticket not issued yet' });
+
+    const doc = new PDFDocument({ size: 'A4', margin: 50 });
+    res.setHeader('Content-Type', 'application/pdf');
+    res.setHeader('Content-Disposition', `attachment; filename="hall-ticket-${reg.hallTicket.number}.pdf"`);
+    doc.pipe(res);
+
+    // Header
+    doc
+      .fontSize(22)
+      .text('Exam Registration - Hall Ticket', { align: 'center' })
+      .moveDown(0.5)
+      .fontSize(12)
+      .text(`Issued: ${new Date(reg.hallTicket.issuedAt || Date.now()).toLocaleString()}`, { align: 'center' })
+      .moveDown(1);
+
+    // Ticket info
+    doc
+      .fontSize(14)
+      .text(`Hall Ticket No: ${reg.hallTicket.number}`, { continued: false })
+      .moveDown(0.5)
+      .fontSize(12)
+      .text(`Candidate: ${reg.user?.name || '-'}`)
+      .text(`Email: ${reg.user?.email || '-'}`)
+      .moveDown(0.5)
+      .text(`Exam: ${reg.exam?.name || '-'}`)
+      .text(`Date & Time: ${reg.exam?.date ? new Date(reg.exam.date).toLocaleString() : '-'}`)
+      .text(`Duration: ${reg.exam?.durationMinutes || '-'} minutes`)
+      .moveDown(0.5)
+      .text(`Status: ${reg.status}`)
+      .moveDown(1);
+
+    // Application snippet
+    if (reg.application) {
+      doc.fontSize(13).text('Application Details', { underline: true }).moveDown(0.4);
+      const a = reg.application;
+      doc.fontSize(12)
+        .text(`Full Name: ${a.fullName || '-'}`)
+        .text(`DOB: ${a.dob ? new Date(a.dob).toLocaleDateString() : '-'}`)
+        .text(`Phone: ${a.phone || '-'}`)
+        .text(`Education: ${a.education || '-'}`)
+        .text(`Address: ${a.address || '-'}`)
+        .moveDown(1);
+    }
+
+    doc
+      .moveDown(2)
+      .fontSize(10)
+      .fillColor('#555555')
+      .text('Note: Bring a valid photo ID along with this hall ticket to the exam centre.', { align: 'center' });
+
+    doc.end();
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
 
 export const registerForExam = async (req, res) => {

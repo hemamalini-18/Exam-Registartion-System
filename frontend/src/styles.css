@@ -27,15 +27,15 @@
   .container { max-width: 1240px; margin: 0 auto; padding: 20px; }
   .content { margin-top: 24px; }
 
-  .navbar { display: flex; align-items: center; justify-content: space-between; background: var(--panel-grad); backdrop-filter: saturate(130%) blur(6px); padding: 14px 20px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 6px 20px rgba(0,0,0,0.06); }
+  .navbar { display: flex; align-items: center; justify-content: space-between; background: var(--panel-grad); backdrop-filter: saturate(130%) blur(6px); padding: 14px 20px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 6px 20px rgba(0,0,0,0.06); min-height: 64px; }
   .brand { display: inline-flex; align-items: center; gap: 12px; font-weight: 800; letter-spacing: 0.3px; font-size: 1.15rem; }
   .logo { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--primary), #22d3ee); display: grid; place-items: center; color: #ffffff; font-weight: 800; }
-  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .nav-right { display: flex; flex-direction: row; align-items: center; gap: 12px; flex-wrap: nowrap; }
   .nav-right a { color: var(--text); text-decoration: none; padding: 10px 12px; border-radius: 8px; transition: background 0.2s ease; font-weight: 600; }
   .nav-right a:hover { background: rgba(2, 6, 23, 0.04); }
   .nav-right .user { margin-right: 10px; color: var(--muted); }
   .avatar { width: 30px; height: 30px; border-radius: 999px; background: #e2f6f3; color: #0b1520; display: grid; place-items: center; font-size: 0.9rem; font-weight: 700; border: 1px solid var(--border); }
-  .nav-group { display: flex; align-items: center; gap: 12px; }
+  .nav-group { display: flex; flex-direction: row; align-items: center; gap: 12px; flex-wrap: nowrap; }
 
   .card { background: var(--panel-grad); backdrop-filter: saturate(130%) blur(6px); border: 1px solid var(--border); border-radius: 14px; padding: 24px; margin-bottom: 20px; box-shadow: 0 12px 28px rgba(2, 6, 23, 0.06), 0 1px 2px rgba(2, 6, 23, 0.04); }
   .card.narrow { max-width: 520px; margin: 40px auto; }
@@ -55,8 +55,12 @@
   .btn.small { padding: 6px 10px; font-size: 0.9rem; }
   .btn:focus-visible { outline: none; box-shadow: 0 0 0 4px var(--ring); }
 
+  /* Inline compact action group for tables */
+  .actions { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+
   .table { width: 100%; border-collapse: collapse; font-size: 1rem; }
-  .table th, .table td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--border); }
+  .table th, .table td { text-align: left; padding: 14px 12px; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  .table tr { height: 56px; }
   .table th { color: #0f172a; font-weight: 800; background: #f1f5f9; position: sticky; top: 0; z-index: 1; }
   .table tbody tr:nth-child(even) { background: rgba(2, 6, 23, 0.015); }
   .table tbody tr:hover { background: rgba(2, 6, 23, 0.04); }
@@ -86,3 +90,30 @@
   /* Links */
   a { color: #047857; }
   a:hover { text-decoration: underline; }
+
+  /* Footer: end-to-end section */
+  .site-footer {
+    margin-top: 16px;
+    background: rgba(255,255,255,0.6);
+    border-top: 1px solid var(--border);
+    backdrop-filter: saturate(130%) blur(6px);
+    width: 100%;
+  }
+  .footer-inner {
+    width: 100%;            /* make content stretch full width */
+    max-width: none;        /* remove centering cap */
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .footer-brand strong { font-weight: 800; }
+  .footer-desc { color: var(--muted); }
+  .footer-links { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .footer-links a { color: var(--text); text-decoration: none; padding: 6px 8px; border-radius: 8px; }
+  .footer-links a:hover { background: rgba(2, 6, 23, 0.04); }
+  .footer-copy { text-align: center; color: var(--muted); font-size: 14px; padding: 8px 0 16px; }
+  @media (max-width: 640px) {
+    .footer-inner { flex-direction: column; align-items: flex-start; }
+  }
